@@ -1,12 +1,12 @@
 {
     "flats_used": {
         "query": "SELECT * FROM flats_used",
-        "keyword": ["All keywords from query analyzer", "", ""],
+        "keyword":{"city": "mumbai", "location_preference": "Thane", "work_location": "Office No. 214, Sunrise Business Park, Wagle Estate, Thane West, Mumbai, Maharashtra 400604", "no_of_children": 2, "have_parent": true},
         "city": "Mumbai"
     },
     "Good Amenities": {
         "city": "Mumbai",
-        "area": "Andheri West",
+        "area": "Thane",
         "amenities": ["Gym", "Swimming Pool", "Club House"]
     }
 }
