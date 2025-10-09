@@ -1,0 +1,56 @@
+{
+  "global_schema": [
+    "flat_id", 
+    "city", 
+    "location", 
+    "price", 
+    "area_sqft", 
+    "amenities"
+  ],
+  "city_schemas": {
+    "Mumbai": {
+      "table": "mumbai",
+      "fields": {
+        "flat_id": "id",
+        "city": "city_name",
+        "price": "cost",
+        "area_sqft": "size_sqft",
+        "location": "location_area",
+        "amenities": "features"
+      }
+    },
+    "Hyderabad": {
+      "table": "hyderabad",
+      "fields": {
+        "flat_id": "flat_no",
+        "city": "city",
+        "price": "price_value",
+        "area_sqft": "area",
+        "location": "address",
+        "amenities": "facilities"
+      }
+    },
+    "Kolkata": {
+      "table": "kolkata",
+      "fields": {
+        "flat_id": "flat_id",
+        "city": "city",
+        "price": "price",
+        "area_sqft": "sqft",
+        "location": "area_name",
+        "amenities": "amenities_list"
+      }
+    },
+    "Gurgaon": {
+      "table": "gurgaon",
+      "fields": {
+        "flat_id": "flat_id",
+        "city": "city",
+        "price": "price",
+        "area_sqft": "sqft",
+        "location": "area_name",
+        "amenities": "amenities_list"
+      }
+    }
+  }
+}
