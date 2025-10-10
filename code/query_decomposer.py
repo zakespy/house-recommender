@@ -4,7 +4,7 @@ class query_decomposer:
     def __init__(self):
         self.global_schema_columns = [
             "city", "preferred_location", "budget", "bedrooms", "property_type", 
-            "furnish_type", "price", "amenities", "average_rating", "no_of_reviews"
+            "furnish_type", "price", "amenities", "average_rating", "no_of_reviews", "area"
         ]
 
     def decompose(self, keywords):
@@ -17,6 +17,8 @@ class query_decomposer:
         bedrooms = keywords.get("bedrooms", None)
         have_children = keywords.get("have_children", None)
         have_parent = keywords.get("have_parent", None)
+        furnished = keywords.get("furnish_type", None)
+
         
         # 1️⃣ Create SQL query for main flat search
         base_query = "SELECT * FROM flats_data WHERE"
@@ -28,6 +30,9 @@ class query_decomposer:
             base_query += f" AND price <= {budget}"
         if bedrooms:
             base_query += f" AND bedrooms = {bedrooms}"
+        if furnished:
+            base_query += f" AND furnish_type = {furnished}"
+        
         
         # 2️⃣ Amenities and Review info – placeholders (will be handled by federator)
         amenities_query = {
@@ -62,20 +67,20 @@ class query_decomposer:
 
 
 # ------------------- Example Usage -------------------
-if __name__ == "__main__":
-    global_schema_columns = [
-        "city", "preferred_location", "budget", "bedrooms", "property_type", 
-        "furnish_type", "price", "amenities", "average_rating", "no_of_reviews"
-    ]
+# if __name__ == "__main__":
+#     global_schema_columns = [
+#         "city", "preferred_location", "budget", "bedrooms", "property_type", 
+#         "furnish_type", "price", "amenities", "average_rating", "no_of_reviews"
+#     ]
 
-    analyzer_output = {
-        "city": "Thane",
-        "preferred_location": "Mira Road",
-        "budget": 3000000,
-        "bedrooms": 3
-    }
+#     analyzer_output = {
+#         "city": "Thane",
+#         "preferred_location": "Mira Road",
+#         "budget": 3000000,
+#         "bedrooms": 3
+#     }
 
-    decomposer = query_decomposer()
-    output = decomposer.decompose(analyzer_output)
+#     decomposer = query_decomposer()
+#     output = decomposer.decompose(analyzer_output)
 
-    print(json.dumps(output, indent=4))
+#     print(json.dumps(output, indent=4))
