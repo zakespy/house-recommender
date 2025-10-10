@@ -86,7 +86,7 @@ class FederationManager:
     def flats_query_execute(self, subquery):
         print(f"\n[Executing] {subquery.name} for city {subquery.city}")
 
-        wrapper = SQLWrapper()
+        wrapper = SQLWrapper("../schema_mapping.json")
         translated_query = wrapper.prepare_query(subquery)
 
         # You can later route to remote DBs using city mappings
@@ -106,23 +106,27 @@ class FederationManager:
             print(f"→ Retrieved {len(mapped_result)} rows (normalized).")
         else:
             print("No data returned.")
+            
+        return subquery.result
+        
 
-    def amenities_query_execute(self,subquery):
+    def amenities_query_execute(self,subquery,flats_data):
         pass
 
-    def review_query_execute(self,subquery):
+    def review_query_execute(self,subquery,flats_data):
         pass
 
-    def execute_subquery(self,subquery,type):
+    def execute_subquery(self,subquery,type,extra=None):
         
         if type == "flats":
-            self.flats_query_execute(subquery)            
+            return self.flats_query_execute(subquery)            
         elif type == "amenities":
-            self.amenities_query_execute(subquery)
+            return self.amenities_query_execute(subquery,extra)
         else:
-            self.review_query_execute(subquery)
+            return self.review_query_execute(subquery,extra)
             
-    def integrate_results(self):
+    def integrate_results(self,flats_data,amenities_datam,reviews_data):
+        pass
         """
         Placeholder for combining data from multiple sources.
         """
@@ -144,17 +148,31 @@ class FederationManager:
         self.load_from_json_file(json_path)
         self.list_subqueries()
 
-        print("\n--- Federation Steps (to be implemented) ---")
+        # print("\n--- Federation Steps (to be implemented) ---")
         for subquery in self.subqueries.values():
-            self.connect_to_data_source(subquery)
-            self.execute_subquery(subquery)
-        self.integrate_results()
-
-
+            if subquery.name == "flats_used":
+                flats_data = self.execute_subquery(subquery,"flats")
+                print(flats_data)
+                break
+            
+        for subquery in self.subqueries.values():
+            if subquery.name == "amenities":
+                amenities_data = self.execute_subquery(subquery,"amenities",flats_data)
+                print(amenities_data)
+            elif subquery.name == "reviews":
+                review_data = self.execute_subquery(subquery,"reviews",flats_data)
+                print(review_data)
+                
+        final_result = self.integrate_results(flats_data,amenities_data,review_data)
+        print(final_result)
+        
+        return final_result
+    
+    
 # -----------------------------
 # Example usage
 # -----------------------------
 if __name__ == "__main__":
     federation = FederationManager()
-    federation.run("query_input.json")
+    federation.run("../query_input.json")
 

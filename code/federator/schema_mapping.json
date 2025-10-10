@@ -1,56 +1,91 @@
 {
-  "global_schema": [
-    "flat_id", 
-    "city", 
-    "location", 
-    "price", 
-    "area_sqft", 
-    "amenities"
-  ],
-  "city_schemas": {
-    "Mumbai": {
-      "table": "mumbai",
-      "fields": {
-        "flat_id": "id",
-        "city": "city_name",
-        "price": "cost",
-        "area_sqft": "size_sqft",
-        "location": "location_area",
-        "amenities": "features"
-      }
-    },
-    "Hyderabad": {
-      "table": "hyderabad",
-      "fields": {
-        "flat_id": "flat_no",
-        "city": "city",
-        "price": "price_value",
-        "area_sqft": "area",
-        "location": "address",
-        "amenities": "facilities"
-      }
-    },
-    "Kolkata": {
-      "table": "kolkata",
-      "fields": {
-        "flat_id": "flat_id",
-        "city": "city",
-        "price": "price",
-        "area_sqft": "sqft",
-        "location": "area_name",
-        "amenities": "amenities_list"
-      }
-    },
-    "Gurgaon": {
-      "table": "gurgaon",
-      "fields": {
-        "flat_id": "flat_id",
-        "city": "city",
-        "price": "price",
-        "area_sqft": "sqft",
-        "location": "area_name",
-        "amenities": "amenities_list"
-      }
+      "global_schema": [
+        "city",
+        "city_area",
+        "preferred_location",
+        "budget",
+        "bedrooms",
+        "coordinate",
+        "furnish_type",
+        "area",
+        "bldg_name",
+        "price",
+        "amenities",
+        "average_rating",
+        "no_of_reviews"
+      ],
+      "city_schemas": {
+        "Mumbai": {
+            "table": "mumbai",
+            "fields": {
+                "city":"mumbai",
+                "city_area": "CITY",
+                "preferred_location": "LOCALITY",
+                "budget": "PRICE",
+                "bedrooms": "BEDROOM_NUM",
+                "furnish_type": "FURNISH",
+                "area": "AREA",
+                "bldg_name":"BUILDING_NAME",
+                "price": "PRICE",
+                "coordinate":"MAP_DETAILS",
+                "amenities": null,
+                "average_rating": null,
+                "no_of_reviews": null
+            }
+        },
+        "Hyderabad": {
+            "table": "hyderabad",
+            "fields": {
+                "city":"hyderabad",
+                "city_area": "CITY",
+                "preferred_location": "LOCALITY",
+                "budget": "PRICE",
+                "bedrooms": "BEDROOM_NUM",
+                "furnish_type": "FURNISH",
+                "area": "AREA",
+                 "bldg_name":"BUILDING_NAME",
+                "price": "PRICE",
+                "coordinate":"MAP_DETAILS",
+                "amenities": null,
+                "average_rating": null,
+                "no_of_reviews": null
+            }
+        },
+        "Kolkata": {
+            "table": "kolkata",
+            "fields": {
+                "city":"kolkata",
+                "city_area": "CITY",
+                "preferred_location": "LOCALITY",
+                "budget": "PRICE",
+                "bedrooms": "BEDROOM_NUM",
+                "furnish_type": "FURNISH",
+                "area": "AREA",
+                "bldg_name":"BUILDING_NAME",
+                "price": "PRICE",
+                "coordinate":"MAP_DETAILS",
+                "amenities": null,
+                "average_rating": null,
+                "no_of_reviews": null
+            }
+        },
+        "Gurgaon": {
+            "table": "gurgaon",
+            "fields": {
+                "city":"gurgaon",
+                "city_area": "CITY",
+                "preferred_location": "LOCALITY",
+                "budget": "PRICE",
+                "bedrooms": "BEDROOM_NUM",
+                "furnish_type": "FURNISH",
+                "area": "AREA",
+                "bldg_name":"BUILDING_NAME",
+                "price": "PRICE",
+                "coordinate":"MAP_DETAILS",
+                "amenities": null,
+                "average_rating": null,
+                "no_of_reviews": null
+            }
+        }
     }
-  }
 }

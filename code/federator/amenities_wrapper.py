@@ -1,12 +1,8 @@
 import json # <--- Import the json library
-import re
+from datasources.datasource2_amenities.amenities import AmenitiesDataSource
 
-class SQLWrapper:
-    """
-    Wrapper for SQL data sources.
-    - Translates global queries into city-specific schema queries.
-    - Maps local query results into global schema format.
-    """
+class AmenitiesWrapper:
+    
     def __init__(self, config_path):
         # The schema is now loaded from an external file, not hardcoded.
         self.city_schemas = self._load_schema_config(config_path)
@@ -97,3 +93,9 @@ class SQLWrapper:
             mapped_data.append(mapped)
 
         return mapped_data
+   
+    # ---------------------------------------------------------------------
+    def amenities_query_execute(self, subquery,extra):
+        pass
+     
+         
