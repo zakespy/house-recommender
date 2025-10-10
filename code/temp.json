@@ -1,0 +1,77 @@
+{
+    "global_schema": [
+        "city", "city_area", "preferred_location", "preferred_location2", "budget", 
+        "bedrooms", "coordinate", "furnish_type", "area", "bldg_name", "price", 
+        "amenities", "average_rating", "no_of_reviews"
+    ],
+    "city_schemas": {
+        "mumbai": {
+            "table": "mumbai",
+            "fields": {
+                "preferred_location": { "local_name": "LOCALITY_NAME", "type": "text" },
+                "preferred_location2":{ "local_name": "CITY",          "type": "text" },
+                "budget":             { "local_name": "PRICE",         "type": "numeric" },
+                "bedrooms":           { "local_name": "BEDROOM_NUM",   "type": "numeric" },
+                "furnish_type":       { "local_name": "FURNISH",       "type": "numeric" },
+                "area":               { "local_name": "AREA",          "type": "numeric" },
+                "bldg_name":          { "local_name": "BUILDING_NAME", "type": "text" },
+                "price":              { "local_name": "PRICE",         "type": "numeric" },
+                "coordinate":         { "local_name": "MAP_DETAILS",   "type": "text" },
+                "amenities":          { "local_name": null,            "type": "text" },
+                "average_rating":     { "local_name": null,            "type": "numeric" },
+                "no_of_reviews":      { "local_name": null,            "type": "numeric" }
+            }
+        },
+        "hyderabad": {
+            "table": "hyderabad",
+            "fields": {
+                "preferred_location": { "local_name": "LOCALITY_NAME", "type": "text" },
+                "preferred_location2":{ "local_name": "CITY",          "type": "text" },
+                "budget":             { "local_name": "PRICE",         "type": "numeric" },
+                "bedrooms":           { "local_name": "BEDROOM_NUM",   "type": "numeric" },
+                "furnish_type":       { "local_name": "FURNISH",       "type": "numeric" },
+                "area":               { "local_name": "AREA",          "type": "numeric" },
+                "bldg_name":          { "local_name": "BUILDING_NAME", "type": "text" },
+                "price":              { "local_name": "PRICE",         "type": "numeric" },
+                "coordinate":         { "local_name": "MAP_DETAILS",   "type": "text" },
+                "amenities":          { "local_name": null,            "type": "text" },
+                "average_rating":     { "local_name": null,            "type": "numeric" },
+                "no_of_reviews":      { "local_name": null,            "type": "numeric" }
+            }
+        },
+        "kolkata": {
+            "table": "kolkata",
+            "fields": {
+                "preferred_location": { "local_name": "LOCALITY_NAME", "type": "text" },
+                "preferred_location2":{ "local_name": "CITY",          "type": "text" },
+                "budget":             { "local_name": "PRICE",         "type": "numeric" },
+                "bedrooms":           { "local_name": "BEDROOM_NUM",   "type": "numeric" },
+                "furnish_type":       { "local_name": "FURNISH",       "type": "numeric" },
+                "area":               { "local_name": "AREA",          "type": "numeric" },
+                "bldg_name":          { "local_name": "BUILDING_NAME", "type": "text" },
+                "price":              { "local_name": "PRICE",         "type": "numeric" },
+                "coordinate":         { "local_name": "MAP_DETAILS",   "type": "text" },
+                "amenities":          { "local_name": null,            "type": "text" },
+                "average_rating":     { "local_name": null,            "type": "numeric" },
+                "no_of_reviews":      { "local_name": null,            "type": "numeric" }
+            }
+        },
+        "gurgaon": {
+            "table": "gurgaon",
+            "fields": {
+                "preferred_location": { "local_name": "LOCALITY_NAME", "type": "text" },
+                "preferred_location2":{ "local_name": "CITY",          "type": "text" },
+                "budget":             { "local_name": "PRICE",         "type": "numeric" },
+                "bedrooms":           { "local_name": "BEDROOM_NUM",   "type": "numeric" },
+                "furnish_type":       { "local_name": "FURNISH",       "type": "numeric" },
+                "area":               { "local_name": "AREA",          "type": "numeric" },
+                "bldg_name":          { "local_name": "BUILDING_NAME", "type": "text" },
+                "price":              { "local_name": "PRICE",         "type": "numeric" },
+                "coordinate":         { "local_name": "MAP_DETAILS",   "type": "text" },
+                "amenities":          { "local_name": null,            "type": "text" },
+                "average_rating":     { "local_name": null,            "type": "numeric" },
+                "no_of_reviews":      { "local_name": null,            "type": "numeric" }
+            }
+        }
+    }
+}

@@ -1,17 +1,13 @@
 import json # <--- Import the json library
-import re
+from datasources.datasource2_amenities.amenities import AmenitiesDataSource
 
-class SQLWrapper:
-    """
-    Wrapper for SQL data sources.
-    - Translates global queries into city-specific schema queries.
-    - Maps local query results into global schema format.
-    """
+class AmenitiesWrapper:
+    
     def __init__(self, config_path):
-        # The schema is now loaded from an external file, not hardcoded.
+       
         self.city_schemas = self._load_schema_config(config_path)
 
-        # Define your global schema
+       
         self.global_schema = [
         "city",
         "city_area",
@@ -53,16 +49,14 @@ class SQLWrapper:
         table = schema_info["table"]
         fields = schema_info["fields"]
 
-        # If query is generic like "SELECT * FROM flats_used"
-        # replace it with city-specific table and mapped columns
+        
         if subquery.query:
-            # Map the global schema fields to the local column names for the SELECT statement
+           
             selected_cols_list = []
             for global_field in self.global_schema:
                 local_field = fields.get(global_field)
                 if local_field:
-                    # Use "AS" to alias the local column name back to the global name.
-                    # This simplifies the mapping process on the way back.
+                    
                     selected_cols_list.append(f'{local_field} AS "{global_field}"')
 
             selected_cols = ", ".join(selected_cols_list)
@@ -97,3 +91,9 @@ class SQLWrapper:
             mapped_data.append(mapped)
 
         return mapped_data
+   
+    # ---------------------------------------------------------------------
+    def amenities_query_execute(self, subquery,extra):
+        pass
+     
+         

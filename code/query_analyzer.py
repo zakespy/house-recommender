@@ -6,6 +6,7 @@ You are real estate expert. Giving following user query, find out the necessary 
 Extract these details from the given user prompt in following dictionary output:
 city: (you have to select from mumbai, hyderabad, kolkata and gurgaon)
 location_preference: (if mentioned)
+location_preference2: (if mentioned second location otherwise same as location_preference)
 work_location: (if mentioned)
 have_children: (if mentioned)
 have_parent: (if mentioned)
@@ -18,6 +19,7 @@ Example USER_PROMPT: I want a flat in Mira Road, Mumbai. My job location is Offi
 Example Preferred output:
 "city": "mumbai",
 "location_preference": "Mira Road, Mumbai",
+"location_preference2": "Mira Bhayandar Road, Mumbai",
 "work_location": "Office No.H/111-113, Poonam Shrusti, Opp.S.K. Stone Police Chawky, Mira Bhayandar Road, Poonam Garden Rd, Chandan Shanti, Mira Road East, Mira Bhayandar, Maharashtra 401107",
 "have_children": true,
 "have_parent": true,

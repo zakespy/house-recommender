@@ -35,20 +35,24 @@ class FederationManager:
     def __init__(self):
         self.subqueries: Dict[str, SubQuery] = {}
 
-    def load_from_json_file(self, json_path: Union[str, Path]):
+    def load_from_json_file(self, json_path: Union[str, Path], json_data = None):
         """
         Read a JSON file and create SubQuery objects.
         Handles both list and dictionary types for 'keyword'.
         """
-        json_path = Path(json_path)
-        if not json_path.exists():
-            raise FileNotFoundError(f"JSON file not found: {json_path}")
+        
+        if json_data != None:
+            data = json_data
+        else:
+            json_path = Path(json_path)
+            if not json_path.exists():
+                raise FileNotFoundError(f"JSON file not found: {json_path}")
 
-        with open(json_path, "r", encoding="utf-8") as f:
-            try:
-                data = json.load(f)
-            except json.JSONDecodeError as e:
-                raise ValueError(f"Invalid JSON format in {json_path}: {e}")
+            with open(json_path, "r", encoding="utf-8") as f:
+                try:
+                    data = json.load(f)
+                except json.JSONDecodeError as e:
+                    raise ValueError(f"Invalid JSON format in {json_path}: {e}")
 
         for name, details in data.items():
             query = details.get("query")
@@ -77,24 +81,20 @@ class FederationManager:
     def get_subquery(self, name: str) -> SubQuery:
         return self.subqueries.get(name)
 
-    # -----------------------------
-    # Future extensibility points
-    # -----------------------------
-
-    # inside FederationManager
 
     def flats_query_execute(self, subquery):
         print(f"\n[Executing] {subquery.name} for city {subquery.city}")
 
-        wrapper = SQLWrapper("../schema_mapping.json")
+        wrapper = SQLWrapper("schema_mapping.json")
         translated_query = wrapper.prepare_query(subquery)
 
         # You can later route to remote DBs using city mappings
         db_config = {
-            "host": os.getenv("host"),
-            "user": os.getenv("root"),
-            "password": os.getenv("password"),
-            "database": os.getenv("database")
+            "host": os.getenv("DB_HOST"),
+            "user": os.getenv("DB_USER"),
+            "password": os.getenv("DB_PASSWORD"),
+            "database": os.getenv("DB_NAME"),
+            "port": int(os.getenv("DB_PORT", 3306))
         }
 
         connector = SQLConnector(**db_config)
@@ -132,10 +132,8 @@ class FederationManager:
         """
         print("[TODO] Integrate results from all subqueries.")
 
-    # -----------------------------
-    # Pipeline runner
-    # -----------------------------
-    def run(self, json_path: Union[str, Path]):
+    
+    def run(self, json_path: Union[str, Path] = None,json_data = None ):
         """
         Runs the federation pipeline:
         1. Load subqueries from JSON
@@ -145,34 +143,77 @@ class FederationManager:
         5. (Future) Integrate results
         """
         print(f"Running Federation Pipeline for: {json_path}")
-        self.load_from_json_file(json_path)
+        self.load_from_json_file(json_path,json_data)
         self.list_subqueries()
 
-        # print("\n--- Federation Steps (to be implemented) ---")
+        
         for subquery in self.subqueries.values():
-            if subquery.name == "flats_used":
+            if subquery.name == "flats_data":
+                print("---- Executing flats query ----")
                 flats_data = self.execute_subquery(subquery,"flats")
                 print(flats_data)
                 break
             
-        for subquery in self.subqueries.values():
-            if subquery.name == "amenities":
-                amenities_data = self.execute_subquery(subquery,"amenities",flats_data)
-                print(amenities_data)
-            elif subquery.name == "reviews":
-                review_data = self.execute_subquery(subquery,"reviews",flats_data)
-                print(review_data)
+        # for subquery in self.subqueries.values():
+        #     if subquery.name == "amenities":
+        #         amenities_data = self.execute_subquery(subquery,"amenities",flats_data)
+        #         print(amenities_data)
+        #     elif subquery.name == "reviews":
+        #         review_data = self.execute_subquery(subquery,"reviews",flats_data)
+        #         print(review_data)
                 
-        final_result = self.integrate_results(flats_data,amenities_data,review_data)
-        print(final_result)
+        # final_result = self.integrate_results(flats_data,amenities_data,review_data)
+        # print(final_result)
         
-        return final_result
+        # return final_result
     
     
-# -----------------------------
-# Example usage
-# -----------------------------
+
 if __name__ == "__main__":
+    
+    json_string = """
+    {
+        "flats_data": {
+            "query": "SELECT * FROM flats_data WHERE city = 'mumbai' AND preferred_location = 'Thane' AND furnish_type = 1",
+            "keywords_used": [
+                "city",
+                "location_preference",
+                "work_location",
+                "have_children",
+                "have_parent",
+                "furnish_type",
+                "budget",
+                "area"
+            ],
+            "city": "mumbai"
+        },
+        "amenities_data": {
+            "city": "mumbai",
+            "area": "Thane",
+            "amenities": [
+                "Gym",
+                "Swimming Pool",
+                "Club House",
+                "Children's Play Area",
+                "School Nearby",
+                "Hospital Nearby",
+                "Park Nearby"
+            ]
+        },
+        "reviews_data": {
+            "city": "mumbai",
+            "area": "Thane",
+            "reviews_source": "google_maps",
+            "fields": [
+                "average_rating",
+                "review_summary",
+                "no_of_reviews"
+            ]
+        }
+    }
+    """
+
+    
     federation = FederationManager()
-    federation.run("../query_input.json")
+    federation.run(json_data = json.loads(json_string))
 
