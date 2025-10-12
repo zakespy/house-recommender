@@ -137,7 +137,7 @@ class ReviewsDataSource:
 if __name__ == "__main__":
     amenitydatasource = ReviewsDataSource()
     
-    place_id = amenitydatasource.get_place_id("Shri Sai Darshan Sector 4 Airoli Navi Mumbai")
+    place_id = amenitydatasource.get_place_id("Paradign twin star ")
     reviewList = amenitydatasource.get_reviews_by_place_id(place_id)
     
     print(reviewList)

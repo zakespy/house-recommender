@@ -26,21 +26,9 @@ class ReviewsWrapper:
 
     # ---------------------------------------------------------------------
     def map_to_global_schema(self, sql_result, city):
-        # """
-        # Convert local table result rows into the global schema structure.
-        
-        # NOTE: If you use the improved 'prepare_query' method with 'AS' aliases,
-        # this mapping function becomes much simpler or even unnecessary, as the
-        # database already returns the data with the correct global field names.
-        
-        # """
        pass 
    
     # ---------------------------------------------------------------------
-    # def reviews_query_execute(self, subquery,extra):
-    #     pass
-     
-     
     def review_query_execute(self, subquery, flats_data):
         """
         For each flat (row), call the Google Text Search API for each amenity.
@@ -53,32 +41,28 @@ class ReviewsWrapper:
         print(f"[reviewsWrapper] Running reviews query for {len(flats_data)} flats...")
 
         data_source = ReviewsDataSource()
-        reviews_list = subquery.reviews
+        # reviews_list = subquery.reviews
         results = []
-
         for row in flats_data:
+            reviewList = []
             bldg_name = row.get("bldg_name", "")
             loc1 = row.get("preferred_location", "")
             loc2 = row.get("preferred_location2", "")  # optional
             address = " ".join([bldg_name, loc1, loc2]).strip()
-
             row_result = {
                 "bldg_name": bldg_name,
                 "preferred_location": loc1,
                 "preferred_location2": loc2,
             }
+            
+            place_id = data_source.get_place_id(address)
+            reviewList = data_source.get_reviews_by_place_id(place_id)
+                
+            
 
             # For each amenity, get count using Google API
-            for amenity in reviews_list:
-                try:
-                    count = data_source.textsearch_api(amenity, address)
-                    row_result[amenity] = count
-                except Exception as e:
-                    print(f"[Warning] Amenity '{amenity}' failed for {address}: {e}")
-                    row_result[amenity] = 0
+            
 
-            results.append(row_result)
-
-        print(f"[reviewsWrapper] Completed reviews search for {len(results)} entries.")
+        # print(f"[reviewsWrapper] Completed reviews search for {len(results)} entries.")
         return results
          

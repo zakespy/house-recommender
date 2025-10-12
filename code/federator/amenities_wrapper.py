@@ -2,7 +2,7 @@ import json # <--- Import the json library
 from datasources.datasource2_amenities.amenities import AmenitiesDataSource
 
 class AmenitiesWrapper:
-    
+        
     def __init__(self, config_path):
         
         config = self._load_schema_config(config_path)
@@ -20,7 +20,7 @@ class AmenitiesWrapper:
         except json.JSONDecodeError:
             raise ValueError(f"Error decoding JSON from the configuration file '{path}'")
     # ---------------------------------------------------------------------
-    
+
     def prepare_query(self, subquery):
        pass
 
@@ -34,13 +34,13 @@ class AmenitiesWrapper:
         # database already returns the data with the correct global field names.
         
         # """
-       pass 
-   
+        pass 
+        
     # ---------------------------------------------------------------------
     # def amenities_query_execute(self, subquery,extra):
     #     pass
-     
-     
+
+
     def amenities_query_execute(self, subquery, flats_data):
         """
         For each flat (row), call the Google Text Search API for each amenity.
@@ -81,4 +81,4 @@ class AmenitiesWrapper:
 
         print(f"[AmenitiesWrapper] Completed amenities search for {len(results)} entries.")
         return results
-         
+        
