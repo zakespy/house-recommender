@@ -13,7 +13,7 @@ class query_decomposer:
         """
         city = keywords.get("city", None)
         location_preference = keywords.get("location_preference", None)
-        location_preference2 = keywords.get("location_preference2",location_preference)
+        location_preference2 = keywords.get("location_preference2",None)
         area = keywords.get("area", None)
         budget = keywords.get("budget", None)
         bedrooms = keywords.get("bedrooms", None)
@@ -44,12 +44,12 @@ class query_decomposer:
         amenities_query = {
             "city": city,
             "area": area,
-            "amenities": ["Gym", "Swimming Pool", "Club House"] 
+            "amenities": ["hospital","Gym", "Swimming Pool", "Club House"] 
         }
         if (have_children):
             amenities_query["amenities"].extend(["Children's Play Area", "School Nearby"])
         if (have_parent):
-            amenities_query["amenities"].extend(["Hospital Nearby", "Park Nearby"])
+            amenities_query["amenities"].extend(["nursery", "Park Nearby"])
         
         review_query = {
             "city": city,

@@ -4,32 +4,46 @@ import time
 from  dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 class AmenitiesDataSource:
-    def __init__(self, api_key: str):
+    def __init__(self):
         self.api_key = os.getenv("API_KEY")
         # self.api_url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
 
-    def textsearch_api(self,amenities_list,address):
-        dictionary = {}
+    def textsearch_api(self, amenity, address):
+        url = "https://places.googleapis.com/v1/places:searchText"
+        text = f"{amenity} in {address}"
         
-        for amenities in amenities_list:
-            url = "https://places.googleapis.com/v1/places:searchText"
-            text = f"{amenities} in {address}"
-            payload = {
-                "textQuery" : text
-            }
-            self.headers['Content-Type'] = "application/json"
-            self.headers = {
-                "X-Goog-Api-Key": self.api_key,
-                # "X-Goog-FieldMask": "*"
-                "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.priceLevel"
-            }
+        print(text)
+        payload = {
+            "textQuery": text
+        }
+        
+        # Define the headers dictionary completely here
+        headers = {
+            "X-Goog-Api-Key": self.api_key,
+            "Content-Type": "application/json", # This is optional but good practice to include
+            "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.priceLevel"
+        }
 
-            response = requests.post(url, headers= self.headers, json= payload)
+        # Pass the headers dictionary to the request
+        response = requests.post(url, headers=headers, json=payload)
+        
+        if response.status_code == 200:
+            results = response.json().get("places", [])
+            # print(response.json())
+            
+        else:
+            print(f"Error: {response.status_code}")
+            print(response.text) # Print error details from the API
+            response.raise_for_status()
 
-            if response.status_code == 200:
-                dictionary[amenities] = response.json()
-            else:
-                response.raise_for_status()
+        return len(results)
 
-        return dictionary
+        
+        
+if __name__ == "__main__":
+    amenitydatasource = AmenitiesDataSource()
+    
+    amenitydatasource.textsearch_api("hospital","mahavir palace bldg-15, ramdev park")

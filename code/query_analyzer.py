@@ -6,7 +6,7 @@ You are real estate expert. Giving following user query, find out the necessary 
 Extract these details from the given user prompt in following dictionary output:
 city: (you have to select from mumbai, hyderabad, kolkata and gurgaon)
 location_preference: (if mentioned)
-location_preference2: (if mentioned second location otherwise same as location_preference)
+location_preference2: (if mentioned second location )
 work_location: (if mentioned)
 have_children: (if mentioned)
 have_parent: (if mentioned)

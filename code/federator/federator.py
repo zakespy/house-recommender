@@ -1,8 +1,9 @@
 import json
 from typing import Dict, Any, Union
 from pathlib import Path
-from data_connector import SQLConnector
-from sql_wrapper import SQLWrapper
+from federator.data_connector import SQLConnector
+from federator.sql_wrapper import SQLWrapper
+from federator.amenities_wrapper import AmenitiesWrapper
 from dotenv import load_dotenv
 import os
 
@@ -100,18 +101,33 @@ class FederationManager:
         connector = SQLConnector(**db_config)
         raw_result = connector.execute_query(translated_query)
 
-        if raw_result:
-            mapped_result = wrapper.map_to_global_schema(raw_result, subquery.city)
-            subquery.result = mapped_result
-            print(f"→ Retrieved {len(mapped_result)} rows (normalized).")
-        else:
-            print("No data returned.")
+        subquery.result = raw_result
+        # if raw_result:
+        #     print(raw_result)
+        #     mapped_result = wrapper.map_to_global_schema(raw_result, subquery.city)
+        #     subquery.result = mapped_result
+        #     print(f"→ Retrieved {len(mapped_result)} rows (normalized).")
+        # else:
+        #     print("No data returned.")
             
         return subquery.result
         
 
     def amenities_query_execute(self,subquery,flats_data):
-        pass
+        print(f"\n[Executing] Amenities query for city {subquery.city}")
+        
+        wrapper = AmenitiesWrapper("schema_mapping.json")
+
+        # run amenities logic (Google search)
+        result = wrapper.amenities_query_execute(subquery, flats_data)
+
+        if result:
+            print(f"→ Retrieved amenities count for {len(result)} buildings.")
+        else:
+            print("No amenities data returned.")
+
+        subquery.result = result
+        return result
 
     def review_query_execute(self,subquery,flats_data):
         pass
@@ -152,15 +168,16 @@ class FederationManager:
                 print("---- Executing flats query ----")
                 flats_data = self.execute_subquery(subquery,"flats")
                 print(flats_data)
-                break
+                
             
-        # for subquery in self.subqueries.values():
-        #     if subquery.name == "amenities":
-        #         amenities_data = self.execute_subquery(subquery,"amenities",flats_data)
-        #         print(amenities_data)
-        #     elif subquery.name == "reviews":
-        #         review_data = self.execute_subquery(subquery,"reviews",flats_data)
-        #         print(review_data)
+        for subquery in self.subqueries.values():
+            print("inside amenities loop")
+            if subquery.name == "amenities_data":
+                amenities_data = self.execute_subquery(subquery,"amenities",flats_data)
+                print(amenities_data)
+            elif subquery.name == "reviews":
+                review_data = self.execute_subquery(subquery,"reviews",flats_data)
+                print(review_data)
                 
         # final_result = self.integrate_results(flats_data,amenities_data,review_data)
         # print(final_result)

@@ -1,7 +1,17 @@
+import sys
+import os
+
+# --- Add these lines to the top of your file ---
+# This finds the project's root directory (which is one level up from 'code')
+# and adds it to the list of places Python looks for modules.
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, project_root)
+
+
 import query_analyzer as qa
 import query_decomposer as qd
-from federator import FederationManager
-from data_connector import SQLConnector
+from federator.federator import FederationManager
+
 import json
 
 def run():
