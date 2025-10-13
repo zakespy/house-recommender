@@ -1,5 +1,18 @@
 import json # <--- Import the json library
 from datasources.datasource3_reviews.reviews import ReviewsDataSource
+from llm_inference import inference
+
+REVIEW_PROMPT = """
+You are real estate expert. Your task is to analyze a list of reviews for a building and provide insights on the following aspects in the following json format:
+Input: List of reviews 
+Output: {
+    "summarize": "A brief summary of overally reviews",
+    "sentiment": "Return sentiment as Positive (1), neutral (0), or negative (-1)"
+    }
+
+Based on above instructions, analyze the following reviews and ensure to return in json format:
+{reviews}
+"""
 
 class ReviewsWrapper:
     
@@ -53,13 +66,16 @@ class ReviewsWrapper:
                 "bldg_name": bldg_name,
                 "preferred_location": loc1,
                 "preferred_location2": loc2,
+                "analysis":None
             }
             
             place_id = data_source.get_place_id(address)
             reviewList = data_source.get_reviews_by_place_id(place_id)
-                
             
-
+            llm_analysis = inference(REVIEW_PROMPT.replace("reviews", str(reviewList)))
+            print(llm_analysis)
+            # row_result["sentiment_analysis"] = llm_analysis.get("sentiment")
+            # row_result["summary"] = llm_analysis.get("summarize")
             # For each amenity, get count using Google API
             
 
