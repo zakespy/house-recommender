@@ -15,7 +15,7 @@ class AmenitiesDataSource:
         url = "https://places.googleapis.com/v1/places:searchText"
         text = f"{amenity} in {address}"
         
-        print(text)
+        # print(text)
         payload = {
             "textQuery": text
         }

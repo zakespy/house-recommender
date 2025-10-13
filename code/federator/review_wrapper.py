@@ -66,16 +66,20 @@ class ReviewsWrapper:
                 "bldg_name": bldg_name,
                 "preferred_location": loc1,
                 "preferred_location2": loc2,
-                "analysis":None
+                "summary":None,
+                "sentiment":None
             }
             
             place_id = data_source.get_place_id(address)
             reviewList = data_source.get_reviews_by_place_id(place_id)
             
             llm_analysis = inference(REVIEW_PROMPT.replace("reviews", str(reviewList)))
-            print(llm_analysis)
+            llm_analysis = json.loads(llm_analysis)
+            # print(llm_analysis)
             # row_result["sentiment_analysis"] = llm_analysis.get("sentiment")
-            # row_result["summary"] = llm_analysis.get("summarize")
+            row_result["summary"] = llm_analysis.get("summarize")
+            row_result["sentiment"] = llm_analysis.get("sentiment")
+            results.append(row_result)
             # For each amenity, get count using Google API
             
 

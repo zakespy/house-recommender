@@ -50,7 +50,7 @@ class AmenitiesWrapper:
         Output:
             list of dicts with building info and amenity counts
         """
-        print(f"[AmenitiesWrapper] Running amenities query for {len(flats_data)} flats...")
+        # print(f"[AmenitiesWrapper] Running amenities query for {len(flats_data)} flats...")
 
         data_source = AmenitiesDataSource()
         amenities_list = subquery.amenities
@@ -79,6 +79,6 @@ class AmenitiesWrapper:
 
             results.append(row_result)
 
-        print(f"[AmenitiesWrapper] Completed amenities search for {len(results)} entries.")
+        # print(f"[AmenitiesWrapper] Completed amenities search for {len(results)} entries.")
         return results
         

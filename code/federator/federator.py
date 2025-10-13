@@ -4,6 +4,7 @@ from pathlib import Path
 from federator.data_connector import SQLConnector
 from federator.sql_wrapper import SQLWrapper
 from federator.amenities_wrapper import AmenitiesWrapper
+from federator.review_wrapper import ReviewsWrapper
 from dotenv import load_dotenv
 import os
 
@@ -130,7 +131,12 @@ class FederationManager:
         return result
 
     def review_query_execute(self,subquery,flats_data):
-        pass
+
+        wrapper = ReviewsWrapper("schema_mapping.json")
+
+        result = wrapper.review_query_execute(subquery,flats_data)
+        subquery.result = result
+        return result
 
     def execute_subquery(self,subquery,type,extra=None):
         
@@ -141,12 +147,37 @@ class FederationManager:
         else:
             return self.review_query_execute(subquery,extra)
             
-    def integrate_results(self,flats_data,amenities_datam,reviews_data):
-        pass
+    def integrate_results(self, flats_data, amenities_data, reviews_data):
         """
-        Placeholder for combining data from multiple sources.
+        Integrates results from flats, amenities, and reviews data sources.
+        All inputs are list[dict], having the same number of rows and aligned order.
+        Duplicate columns are merged intelligently to avoid repetition.
         """
-        print("[TODO] Integrate results from all subqueries.")
+        if not flats_data and not amenities_data and not reviews_data:
+            print("[Warning] One or more datasets are empty. Integration skipped.")
+            return []
+
+        # Ensure all datasets have equal length
+        n = len(flats_data)
+        if len(amenities_data) != n or len(reviews_data) != n:
+            raise ValueError("[Error] Datasets have mismatched lengths and cannot be merged row-wise.")
+
+        merged_results = []
+        for i in range(n):
+            merged_row = {}
+            for source in (flats_data[i], amenities_data[i], reviews_data[i]):
+                for key, value in source.items():
+                    # Keep only the first occurrence of a duplicate key
+                    if key not in merged_row:
+                        merged_row[key] = value
+                    # Optional: handle duplicate keys differently if needed
+                    # else:
+                    #     merged_row[f"{key}_dup"] = value
+            merged_results.append(merged_row)
+
+        print(f"[Info] Integrated {n} records from flats, amenities, and reviews.")
+        return merged_results
+
 
     
     def run(self, json_path: Union[str, Path] = None,json_data = None ):
@@ -165,24 +196,25 @@ class FederationManager:
         
         for subquery in self.subqueries.values():
             if subquery.name == "flats_data":
-                print("---- Executing flats query ----")
+                # print("---- Executing flats query ----")
                 flats_data = self.execute_subquery(subquery,"flats")
                 print(flats_data)
                 
             
         for subquery in self.subqueries.values():
-            print("inside amenities loop")
+            # print("inside amenities loop")
             if subquery.name == "amenities_data":
                 amenities_data = self.execute_subquery(subquery,"amenities",flats_data)
-                print(amenities_data)
-            elif subquery.name == "reviews":
+                # print(amenities_data)
+            elif subquery.name == "reviews_data":
+                # print("inside reviews loop")
                 review_data = self.execute_subquery(subquery,"reviews",flats_data)
-                print(review_data)
+                # print(review_data)
                 
-        # final_result = self.integrate_results(flats_data,amenities_data,review_data)
-        # print(final_result)
+        final_result = self.integrate_results(flats_data,amenities_data,review_data)
+        print(final_result)
         
-        # return final_result
+        return final_result
     
     
 
