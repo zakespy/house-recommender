@@ -55,7 +55,7 @@ class AmenitiesWrapper:
         data_source = AmenitiesDataSource()
         amenities_list = subquery.amenities
         results = []
-
+        
         for row in flats_data:
             bldg_name = row.get("bldg_name", "")
             loc1 = row.get("preferred_location", "")
