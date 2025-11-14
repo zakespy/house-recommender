@@ -61,7 +61,11 @@ class ReviewsWrapper:
             bldg_name = row.get("bldg_name", "")
             loc1 = row.get("preferred_location", "")
             loc2 = row.get("preferred_location2", "")  # optional
-            address = " ".join([bldg_name, loc1, loc2]).strip()
+            parts = [str(x) if x else "" for x in [bldg_name, loc1, loc2]]
+            address = " ".join(parts).strip()
+            # address = " ".join([bldg_name, loc1, loc2]).strip()
+            
+            
             row_result = {
                 "bldg_name": bldg_name,
                 "preferred_location": loc1,
