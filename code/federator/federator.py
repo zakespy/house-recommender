@@ -91,13 +91,26 @@ class FederationManager:
         translated_query = wrapper.prepare_query(subquery)
 
         # You can later route to remote DBs using city mappings
-        db_config = {
-            "host": os.getenv("DB_HOST"),
-            "user": os.getenv("DB_USER"),
-            "password": os.getenv("DB_PASSWORD"),
-            "database": os.getenv("DB_NAME"),
-            "port": int(os.getenv("DB_PORT", 3306))
-        }
+        if subquery.city.lower() == "mumbai" or subquery.city.lower() == "kolkata":
+            print(f"→ Routing to remote database for city: {subquery.city}")
+            db_config = {
+                "host": os.getenv("DB_HOST"),
+                "user": os.getenv("DB_USER"),
+                "password": os.getenv("DB_PASSWORD"),
+                "database": os.getenv("DB_NAME"),
+                "port": int(os.getenv("DB_PORT", 3306))
+            }
+        
+        else:
+            print(f"Using Local System Database for city: {subquery.city}")
+            db_config = {
+                "host": os.getenv("DB1_HOST"),
+                "user": os.getenv("DB1_USER"),
+                "password": os.getenv("DB1_PASSWORD"),
+                "database": os.getenv("DB1_NAME"),
+                "port": int(os.getenv("DB1_PORT", 3306))
+            }
+
 
         connector = SQLConnector(**db_config)
         raw_result = connector.execute_query(translated_query)
