@@ -35,7 +35,7 @@ class query_decomposer:
         if budget:
             base_query += f" AND price <= {budget}"
         if bedrooms:
-            base_query += f" AND bedrooms = {bedrooms}"
+            base_query += f" AND bedrooms <= {bedrooms}"
         if furnished:
             base_query += f" AND furnish_type = {furnished}"
         

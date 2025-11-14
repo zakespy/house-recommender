@@ -56,12 +56,18 @@ class AmenitiesWrapper:
         amenities_list = subquery.amenities
         results = []
         
+        if( flats_data is None or len(flats_data) == 0):
+            print("got empty flats data in amenitites wrapper")
+        
+
         for row in flats_data:
             bldg_name = row.get("bldg_name", "")
             loc1 = row.get("preferred_location", "")
-            loc2 = row.get("preferred_location2", "")  # optional
-            address = " ".join([bldg_name, loc1, loc2]).strip()
+            loc2 = row.get("preferred_location2", "") 
+            parts = [str(x) if x else "" for x in [bldg_name, loc1, loc2]]
+            address = " ".join(parts).strip()
 
+            print("done with address prep")
             row_result = {
                 "bldg_name": bldg_name,
                 "preferred_location": loc1,

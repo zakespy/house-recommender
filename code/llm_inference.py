@@ -1,5 +1,5 @@
-from openai import OpenAI
 from dotenv import load_dotenv, find_dotenv, get_key
+from openai import OpenAI
 
 def inference(user_prompt):
     client = OpenAI(
