@@ -13,10 +13,15 @@ class query_decomposer:
         Takes structured keywords and generates SQL queries for different logical components.
         """
         city = keywords.get("city", None)
-        # location_preference = keywords.get("location_preference", None)
-        location_preference = re.sub(r'[^a-zA-Z0-9]+', ' ', keywords.get("location_preference", "")).lower().strip()
+        location_preference = keywords.get("location_preference", None)
+        # location_preference = re.sub(r'[^a-zA-Z0-9]+', ' ', keywords.get("location_preference", None)).lower().strip()
+        location_preference = re.sub(r'[^a-zA-Z0-9]+', ' ', location_preference).lower().strip() if location_preference is not None else None
+        print("Location Preference:", location_preference)
         # location_preference2 = keywords.get("location_preference2",None)
-        location_preference2 = re.sub(r'[^a-zA-Z0-9]+', ' ', keywords.get("location_preference2", "")).lower().strip()
+        location_preference2 = keywords.get("location_preference2", None)
+        # location_preference = re.sub(r'[^a-zA-Z0-9]+', ' ', keywords.get("location_preference", None)).lower().strip()
+        location_preference2 = re.sub(r'[^a-zA-Z0-9]+', ' ', location_preference2).lower().strip() if location_preference2 is not None else None
+        print("Location Preference:", location_preference2)
 
         area = keywords.get("area", None)
         budget = keywords.get("budget", None)
@@ -25,8 +30,6 @@ class query_decomposer:
         have_parent = keywords.get("have_parent", None)
         furnished = keywords.get("furnish_type", None)
 
-                
-    
         base_query = "SELECT * FROM flats_data WHERE"
         if city:
             base_query += f" city = '{city}'"
@@ -43,7 +46,7 @@ class query_decomposer:
         if furnished:
             base_query += f" AND furnish_type = {furnished}"
         
-        
+        base_query += " LIMIT 10;"
        
         amenities_query = {
             "city": city,

@@ -212,22 +212,25 @@ class FederationManager:
                 # print("---- Executing flats query ----")
                 flats_data = self.execute_subquery(subquery,"flats")
                 print(flats_data)
+                print(f"Flats Data Retrieved: {len(flats_data) if flats_data is not None else 0} records")
                 
+        if flats_data is not None:
+            for subquery in self.subqueries.values():
+                # print("inside amenities loop")
+                if subquery.name == "amenities_data":
+                    amenities_data = self.execute_subquery(subquery,"amenities",flats_data)
+                    # print(amenities_data)
+                elif subquery.name == "reviews_data":
+                    # print("inside reviews loop")
+                    review_data = self.execute_subquery(subquery,"reviews",flats_data)
+                    # print(review_data)
+                
+            final_result = self.integrate_results(flats_data,amenities_data,review_data)
+            print(final_result)
             
-        for subquery in self.subqueries.values():
-            # print("inside amenities loop")
-            if subquery.name == "amenities_data":
-                amenities_data = self.execute_subquery(subquery,"amenities",flats_data)
-                # print(amenities_data)
-            elif subquery.name == "reviews_data":
-                # print("inside reviews loop")
-                review_data = self.execute_subquery(subquery,"reviews",flats_data)
-                # print(review_data)
-                
-        final_result = self.integrate_results(flats_data,amenities_data,review_data)
-        print(final_result)
+            return final_result
         
-        return final_result
+        return {"message": "No flats data retrieved, skipping further processing."}
     
     
 
