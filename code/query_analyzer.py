@@ -12,10 +12,11 @@ have_children: (if mentioned)
 have_parent: (if mentioned)
 furnish_type: (if mentioned like furnished then give 1, semi-furnished then give 4, unfurnished then give 2)
 budget: (if mentioned),
+bedrooms: (if mentioned),
 area: (if mentioned like 1000 sqft then give 1000),
 
 Following is an example:
-Example USER_PROMPT: I want a flat in Mira Road, Mumbai. My job location is Office No.H/111-113, Poonam Shrusti, Opp.S.K. Stone Police Chawky, Mira Bhayandar Road, Poonam Garden Rd, Chandan Shanti, Mira Road East, Mira Bhayandar, Maharashtra 401107. I have 2 children and mother and father. So, suggest me some furnished flats with area of around 3600 sqft near by.
+Example USER_PROMPT: I want a 2 or 3 bhk flat in Mira Road, Mumbai within budget of 50 thousand. My job location is Office No.H/111-113, Poonam Shrusti, Opp.S.K. Stone Police Chawky, Mira Bhayandar Road, Poonam Garden Rd, Chandan Shanti, Mira Road East, Mira Bhayandar, Maharashtra 401107. I have 2 children and mother and father. So, suggest me some furnished flats with area of around 3600 sqft near by.
 Example Preferred output:
 "city": "mumbai",
 "location_preference": "Mira Road, Mumbai",
@@ -24,7 +25,8 @@ Example Preferred output:
 "have_children": true,
 "have_parent": true,
 "furnish_type": 1,
-"budget": null,
+"budget": 50000,
+"bedrooms": [2, 3],
 "area": null
 
 Find the essential details for following user prompt as mentioned in above example.
@@ -40,8 +42,8 @@ class query_analyzer():
         result = json.loads(response)
         return result
 
-# user_query = """I'm looking for a 2 or 3 BHK 3000 sqft fully furnished flat in Thane, preferably close to my office at Office No. 214, Sunrise Business Park, Wagle Estate, Thane West, Mumbai, Maharashtra 400604. The flat should be in a safe and peaceful locality, as I’ll be living with my parents and two children. Please suggest nearby residential societies or housing projects that offer good connectivity, schools, markets, and hospitals within a short distance."""
-# user_details = inference(USER_PROMPT.replace('{user_prompt}', user_query))
-# data = json.loads(user_details)
+user_query = """I'm looking for a 2 or 3 BHK 3000 sqft fully furnished flat in Thane, preferably close to my office at Office No. 214, Sunrise Business Park, Wagle Estate, Thane West, Mumbai, Maharashtra 400604. The flat should be in a safe and peaceful locality, as I’ll be living with my parents and two children. Please suggest nearby residential societies or housing projects that offer good connectivity, schools, markets, and hospitals within a short distance."""
+user_details = inference(USER_PROMPT.replace('{user_prompt}', user_query))
+data = json.loads(user_details)
 
-# print(data)
+print(data)
