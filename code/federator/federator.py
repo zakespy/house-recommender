@@ -206,12 +206,11 @@ class FederationManager:
         self.load_from_json_file(json_path,json_data)
         self.list_subqueries()
 
-        
         for subquery in self.subqueries.values():
             if subquery.name == "flats_data":
                 # print("---- Executing flats query ----")
                 flats_data = self.execute_subquery(subquery,"flats")
-                print(flats_data)
+                # print(flats_data)
                 print(f"Flats Data Retrieved: {len(flats_data) if flats_data is not None else 0} records")
                 
         if flats_data is not None:

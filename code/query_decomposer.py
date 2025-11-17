@@ -16,19 +16,23 @@ class query_decomposer:
         location_preference = keywords.get("location_preference", None)
         # location_preference = re.sub(r'[^a-zA-Z0-9]+', ' ', keywords.get("location_preference", None)).lower().strip()
         location_preference = re.sub(r'[^a-zA-Z0-9]+', ' ', location_preference).lower().strip() if location_preference is not None else None
-        print("Location Preference:", location_preference)
+        # print("Location Preference:", location_preference)
         # location_preference2 = keywords.get("location_preference2",None)
         location_preference2 = keywords.get("location_preference2", None)
         # location_preference = re.sub(r'[^a-zA-Z0-9]+', ' ', keywords.get("location_preference", None)).lower().strip()
         location_preference2 = re.sub(r'[^a-zA-Z0-9]+', ' ', location_preference2).lower().strip() if location_preference2 is not None else None
-        print("Location Preference:", location_preference2)
+        # print("Location Preference:", location_preference2)
 
         area = keywords.get("area", None)
         budget = keywords.get("budget", None)
+        budget = budget*1.1 if budget is not None else 0
         bedrooms = keywords.get("bedrooms", None)
+        bedrooms = tuple(bedrooms) if bedrooms is not None else 0
         have_children = keywords.get("have_children", None)
         have_parent = keywords.get("have_parent", None)
         furnished = keywords.get("furnish_type", None)
+
+        # print(type(bedrooms)) 
 
         base_query = "SELECT * FROM flats_data WHERE"
         if city:
@@ -42,7 +46,7 @@ class query_decomposer:
         if budget:
             base_query += f" AND price <= {budget}"
         if bedrooms:
-            base_query += f" AND bedrooms <= {bedrooms}"
+            base_query += f" AND bedrooms IN {bedrooms}"
         if furnished:
             base_query += f" AND furnish_type = {furnished}"
         
@@ -80,20 +84,25 @@ class query_decomposer:
 
 
 # ------------------- Example Usage -------------------
-# if __name__ == "__main__":
-#     global_schema_columns = [
-#         "city", "preferred_location", "budget", "bedrooms", "property_type", 
-#         "furnish_type", "price", "amenities", "average_rating", "no_of_reviews"
-#     ]
+if __name__ == "__main__":
+    global_schema_columns = [
+        "city", "preferred_location", "budget", "bedrooms", "property_type", 
+        "furnish_type", "price", "amenities", "average_rating", "no_of_reviews"
+    ]
 
-#     analyzer_output = {
-#         "city": "Thane",
-#         "preferred_location": "Mira Road",
-#         "budget": 3000000,
-#         "bedrooms": 3
-#     }
+    analyzer_output = {'city': 'mumbai', 
+        'location_preference': 'Thane', 
+        'location_preference2': None, 
+        'work_location': 'Office No. 214, Sunrise Business Park, Wagle Estate, Thane West, Mumbai, Maharashtra 400604', 
+        'have_children': True, 
+        'have_parent': True, 
+        'furnish_type': 1, 
+        'budget': None, 
+        'bedrooms': [2, 3], 
+        'area': 3000
+    }
 
-#     decomposer = query_decomposer()
-#     output = decomposer.decompose(analyzer_output)
+    decomposer = query_decomposer()
+    output = decomposer.decompose(analyzer_output)
 
-#     print(json.dumps(output, indent=4))
+    print(json.dumps(output, indent=4))
