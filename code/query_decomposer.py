@@ -26,8 +26,14 @@ class query_decomposer:
         area = keywords.get("area", None)
         budget = keywords.get("budget", None)
         budget = budget*1.1 if budget is not None else 0
+
         bedrooms = keywords.get("bedrooms", None)
         bedrooms = tuple(bedrooms) if bedrooms is not None else 0
+        if bedrooms != 0:
+            bedrooms = f"({bedrooms[0]})" if len(bedrooms) == 1 else bedrooms
+        else:
+            bedrooms = 0
+        
         have_children = keywords.get("have_children", None)
         have_parent = keywords.get("have_parent", None)
         furnished = keywords.get("furnish_type", None)

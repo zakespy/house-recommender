@@ -25,8 +25,8 @@
         "hyderabad": {
             "table": "hyderabad",
             "fields": {
-                "preferred_location":{ "local_name": "CITY",          "type": "text" },
-                "preferred_location2": { "local_name": "LOCALITY_NAME", "type": "text" },
+                "preferred_location2":{ "local_name": "CITY",          "type": "text" },
+                "preferred_location": { "local_name": "LOCALITY_NAME", "type": "text" },
                 "budget":             { "local_name": "PRICE",         "type": "numeric" },
                 "bedrooms":           { "local_name": "BEDROOM_NUM",   "type": "numeric" },
                 "furnish_type":       { "local_name": "FURNISH",       "type": "numeric" },
@@ -42,8 +42,8 @@
         "kolkata": {
             "table": "kolkata",
             "fields": {
-                "preferred_location":{ "local_name": "CITY",          "type": "text" },
-                "preferred_location2": { "local_name": "LOCALITY_NAME", "type": "text" },
+                "preferred_location2":{ "local_name": "CITY",          "type": "text" },
+                "preferred_location": { "local_name": "LOCALITY_NAME", "type": "text" },
                 "budget":             { "local_name": "PRICE",         "type": "numeric" },
                 "bedrooms":           { "local_name": "BEDROOM_NUM",   "type": "numeric" },
                 "furnish_type":       { "local_name": "FURNISH",       "type": "numeric" },

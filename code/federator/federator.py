@@ -91,7 +91,8 @@ class FederationManager:
         translated_query = wrapper.prepare_query(subquery)
 
         # You can later route to remote DBs using city mappings
-        if subquery.city.lower() == "mumbai" or subquery.city.lower() == "kolkata":
+        # if subquery.city.lower() == "mumbai" or subquery.city.lower() == "kolkata":
+        if subquery.city.lower() == "mumbai":
             print(f"→ Routing to remote database for city: {subquery.city}")
             db_config = {
                 "host": os.getenv("DB_HOST"),
