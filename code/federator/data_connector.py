@@ -21,6 +21,7 @@ class SQLConnector:
 
     def connect(self):
         try:
+            
             connection = mysql.connector.connect(**self.config)
             if connection.is_connected():
                 print(f"[Connected] {self.config['database']} at {self.config['host']}")
