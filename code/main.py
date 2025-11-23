@@ -64,6 +64,6 @@ if __name__ == "__main__":
         """I'm looking for 3000 sqft fully furnished flat in Navi mumbai, preferably close to my office at Office No. 214, Sunrise Business Park, Wagle Estate, Navi Mumbai, Mumbai, Maharashtra 400604. The flat should be in a safe and peaceful locality, as I’ll be living with my parents and two children. Please suggest nearby residential societies or housing projects that offer good connectivity, schools, markets, and hospitals within a short distance.""",
         """Search for 4 BHK apartments in Sector 48, Gurgaon for rent and my budget is 50k per month or 1.5 Cr flat.""",
         """Find a 3 bedroom flat in gurgaon near the sector 112 gurgaon. I have 2 children and parents as well. So accordingly find me some flat.""",
-        """Give me a flat in Kolkata, near Salt Lake. My workplace is TCS Salt Lake."""
+        """Give me a flat in Kolkata, Sector 5 Salt Lake . My workplace is TCS Salt Lake."""
     ]
     run(prompt[4])

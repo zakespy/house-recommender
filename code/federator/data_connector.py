@@ -1,6 +1,6 @@
 # data_connector.py
-import mysql.connector
-from mysql.connector import Error
+import pymysql
+from pymysql.err import MySQLError
 from dotenv import load_dotenv
 import os
 
@@ -16,33 +16,35 @@ class SQLConnector:
             "user": user,
             "password": password,
             "database": database,
-            "port": port
+            "port": port,
+            "cursorclass": pymysql.cursors.DictCursor   # returns row as dict
         }
 
     def connect(self):
         try:
-            
-            connection = mysql.connector.connect(**self.config)
-            if connection.is_connected():
-                print(f"[Connected] {self.config['database']} at {self.config['host']}")
-                return connection
-        except Error as e:
+            print("trying to connect")
+            connection = pymysql.connect(**self.config)
+            print(f"[Connected] {self.config['database']} at {self.config['host']}")
+            return connection
+        
+        except MySQLError as e:
             print(f"[Error] Cannot connect to database: {e}")
-        return None
+            return None
 
     def execute_query(self, query):
         connection = self.connect()
         if not connection:
             return None
 
-        cursor = connection.cursor(dictionary=True)
         try:
-            cursor.execute(query)
-            results = cursor.fetchall()
-            return results
-        except Error as e:
+            with connection.cursor() as cursor:
+                cursor.execute(query)
+                results = cursor.fetchall()
+                return results
+        
+        except MySQLError as e:
             print(f"[Error] Query failed: {e}")
             return None
+        
         finally:
-            cursor.close()
             connection.close()
